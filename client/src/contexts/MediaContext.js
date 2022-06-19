@@ -4,7 +4,7 @@ import Peer from "simple-peer";
 
 const MediaContext = createContext();
 
-const socket = io("http://localhost:5000", { secure: true });
+const socket = io(process.env.REACT_APP_SERVER_URL, { secure: true });
 
 const MediaProvider = ({ children }) => {
   const [me, setMe] = useState("");

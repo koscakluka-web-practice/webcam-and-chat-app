@@ -1,16 +1,12 @@
 import { ThemeProvider } from "@emotion/react";
 
-import { Typography, createTheme, Box } from "@mui/material";
-import Header from "./components/Header";
-import VideoPlayer from "./components/VideoPlayer";
-import Options from "./components/Options";
-import Notifications from "./components/Notifications";
+import { Typography, Box } from "@mui/material";
+import Header from "./components/Header/Header";
+import VideoChatGrid from "./components/VideoChatGrid/VideoChatGrid";
+import OptionsArea from "./components/OptionsArea/OptionsArea";
+import NotificationsArea from "./components/NotificationsArea/NotificationsArea";
 
-const theme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
+import theme from "./styles/themes/base";
 
 const App = () => {
   return (
@@ -28,10 +24,10 @@ const App = () => {
             Video Chat
           </Typography>
         </Header>
-        <VideoPlayer />
-        <Options>
-          <Notifications />
-        </Options>
+        <VideoChatGrid />
+        <OptionsArea>
+          <NotificationsArea />
+        </OptionsArea>
       </Box>
     </ThemeProvider>
   );

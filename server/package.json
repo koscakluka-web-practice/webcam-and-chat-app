@@ -1,12 +1,11 @@
 {
-  "name": "webcam-and-chat-app",
-  "version": "0.0.1",
+  "name": "webcam-chat-room-server",
+  "version": "1.0.0",
   "description": "",
-  "main": "./backend/index.js",
+  "main": "./index.js",
   "type": "module",
   "scripts": {
-    "dev-server": "nodemon backend/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-server": "nodemon index.js"
   },
   "keywords": [],
   "author": "",

@@ -1,54 +1,20 @@
 import { useState, useContext } from "react";
-import { MediaContext } from "../contexts/MediaContext";
+import { MediaContext } from "../../contexts/MediaContext";
 
 import {
-  Button,
-  TextField,
-  Grid,
-  Typography,
-  Container,
-  Paper,
-  styled,
-} from "@mui/material";
+  OptionsContainer,
+  OptionsPaper,
+  OptionsForm,
+  OptionsGrid,
+  OptionsButton,
+  PaddedGrid,
+} from "./OptionsArea.style";
+import { TextField, Typography } from "@mui/material";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import { Assignment, Phone, PhoneDisabled } from "@mui/icons-material";
 
-const OptionsContainer = styled(Container)(({ theme }) => ({
-  width: "580px",
-  margin: "35px 0",
-  padding: 0,
-  [theme.breakpoints.down("sm")]: {
-    width: "90%",
-  },
-}));
-
-const OptionsPaper = styled(Paper)(({ theme }) => ({
-  padding: "10px 20px",
-  border: "2px solid black",
-}));
-
-const OptionsForm = styled("form")(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-}));
-
-const OptionsGrid = styled(Grid)(({ theme }) => ({
-  width: "100%",
-  [theme.breakpoints.down("xs")]: {
-    flexDirection: "column",
-  },
-}));
-
-const OptionsButton = styled(Button)(({ theme }) => ({
-  marginTop: 20,
-}));
-
-const PaddedGrid = styled(Grid)(({ theme }) => ({
-  padding: 10,
-}));
-
-const Options = ({ children }) => {
+const OptionsArea = ({ children }) => {
   const [calleeId, setCalleeId] = useState("");
 
   const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } =
@@ -59,16 +25,19 @@ const Options = ({ children }) => {
       <OptionsPaper elevation={10}>
         <OptionsForm noValidate autoComplete="off">
           <OptionsGrid container>
+            {/*** Account Info Column ***/}
             <PaddedGrid item xs={12} md={6}>
               <Typography gutterBottom variant="h6">
                 Account Info:
               </Typography>
+              {/*** Name Field ***/}
               <TextField
                 label="Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 fullWidth
               />
+              {/*** Copy ID Button ***/}
               <CopyToClipboard text={me}>
                 <OptionsButton
                   variant="contained"
@@ -80,16 +49,19 @@ const Options = ({ children }) => {
                 </OptionsButton>
               </CopyToClipboard>
             </PaddedGrid>
+            {/*** Call Column ***/}
             <PaddedGrid item xs={12} md={6}>
               <Typography gutterBottom variant="h6">
                 Make a call to:
               </Typography>
+              {/*** Call ID Field ***/}
               <TextField
                 label="ID to Call"
                 value={calleeId}
                 onChange={(e) => setCalleeId(e.target.value)}
                 fullWidth
               />
+              {/*** Call/End Call Button ***/}
               {callAccepted && !callEnded ? (
                 <OptionsButton
                   variant="outlined"
@@ -122,4 +94,4 @@ const Options = ({ children }) => {
   );
 };
 
-export default Options;
+export default OptionsArea;

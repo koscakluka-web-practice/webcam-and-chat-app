@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { MediaContext } from "../contexts/MediaContext";
+import { MediaContext } from "../../contexts/MediaContext";
 
 import { Button } from "@mui/material";
 import { Phone } from "@mui/icons-material";
 
-const Notifications = () => {
+const NotificationsArea = () => {
   const { answerCall, call, callAccepted } = useContext(MediaContext);
   return (
     <>
@@ -25,4 +25,4 @@ const Notifications = () => {
   );
 };
 
-export default Notifications;
+export default NotificationsArea;
