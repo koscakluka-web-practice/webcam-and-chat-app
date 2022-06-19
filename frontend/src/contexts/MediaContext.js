@@ -1,8 +1,8 @@
-import React, { createContext, useState, useRef, useEffect, Children } from 'react';
+import React, { createContext, useState, useRef, useEffect } from 'react';
 import {io} from "socket.io-client";
 import Peer from "simple-peer";
 
-const SocketContext = createContext();
+const MediaContext = createContext();
 
 const socket = io("http://localhost:5000");
 
@@ -21,11 +21,23 @@ const MediaProvider = ( {children} ) => {
     const connectionRef = useRef();
 
     useEffect(() => {
+        let retryMediaInterval = null;
+
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             .then(mediaStream => {
                 setMediaStream(mediaStream);
 
-                myMedia.current.srcObject = mediaStream;
+                if(myMedia.current) {
+                    myMedia.current.srcObject = mediaStream;
+                } else {
+                    retryMediaInterval = setInterval(() => {
+                        if (myMedia.current) {
+                            myMedia.current.srcObject = mediaStream;
+                            clearInterval(retryMediaInterval);
+                            retryMediaInterval = null;
+                        }
+                    }, 1000);
+                }
             });
 
         socket.on("me", id => {
@@ -35,6 +47,12 @@ const MediaProvider = ( {children} ) => {
         socket.on("call-user", ({signal, caller}) => {
             setCall({isReceivingCall: true, caller, signal});
         });
+
+        return () => {
+            if(retryMediaInterval) {
+                clearInterval(retryMediaInterval);
+            }
+        }
     }, []);
 
     const answerCall = () => {
@@ -86,7 +104,7 @@ const MediaProvider = ( {children} ) => {
     }
 
     return (
-        <SocketContext.Provider value={{
+        <MediaContext.Provider value={{
             call,
             callAccepted,
             myMedia,
@@ -101,8 +119,8 @@ const MediaProvider = ( {children} ) => {
             answerCall
         }}>
             {children}
-        </SocketContext.Provider>
+        </MediaContext.Provider>
     );
 }
 
-export {MediaProvider, SocketContext};
+export {MediaProvider, MediaContext};
