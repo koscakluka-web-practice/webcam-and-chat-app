@@ -29,7 +29,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on("call-user", ({calleeId, caller, signalData}) => {
-        io.to(caleeId).emit("call-user", {signal: signalData, caller});
+        io.to(calleeId).emit("call-user", {signal: signalData, caller});
     });
 
     socket.on("answer-call", ({callerId, signal}) => {
